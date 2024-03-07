@@ -1,6 +1,6 @@
 metin = "Merhaba, Dünya!"
 
-print(len(metin))  # Çıktı: 14
+print(len(metin))  # Çıktı: 15
 
 print(metin.upper())  # Çıktı: MERHABA, DÜNYA!
 
