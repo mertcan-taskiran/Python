@@ -8,7 +8,7 @@ print("Girdiğiniz sayının karesi:", kare)
 """
 
 # Kullanıcıdan ad ve yaş bilgisi alıp, bu bilgileri ekrana yazdıran bir program
-"""
+
 ad = input("Adınızı girin: ")
 yas = input("Yaşınızı girin: ")
 
@@ -16,4 +16,3 @@ yas = int(yas)
 
 print("Adınız:", ad)
 print("Yaşınız:", yas)
-"""
