@@ -1,3 +1,8 @@
+"""
+İteratorlar, Python'daki birçok veri yapısının temelini oluşturan nesnelerdir. 
+Bir veri yapısının üzerinde döngü yapabilmek için iter() ve next() gibi özelliklere sahiptirler.
+"""
+
 class Kumanda():
 
     def __init__(self,kanal_listesi):
