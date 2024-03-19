@@ -2,6 +2,8 @@ from PIL import Image,ImageFilter
 
 image = Image.open("images/kus.jpg")
 
+# image.show() # Resmi gösterir.
+
 # image.save("images/kus2.jpg") # Aynı resmi kaydeder.
 
 # image.rotate(180).save("images/kus3.jpg") # 180 derece döndürür.
