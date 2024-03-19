@@ -1,13 +1,10 @@
+# Imdb Top 250 Film Verileri
 import requests
-
 from bs4 import BeautifulSoup
 
 url = "http://www.imdb.com/chart/top"
-
 response = requests.get(url)
-
 html_icerigi = response.content
-
 soup = BeautifulSoup(html_icerigi,"html.parser")
 
 basliklar = soup.find_all("td",{"class":"titleColumn"}) # sadece adı
