@@ -1,5 +1,5 @@
 import sys
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 
 def Pencere():
 
@@ -11,6 +11,10 @@ def Pencere():
     etiket1 = QtWidgets.QLabel(pencere) # Label oluşturma
     etiket1.setText("Burası bir yazıdır.") # Label içeriği
     etiket1.move(200,30) # Label konumlandırma
+
+    etiket2 = QtWidgets.QLabel(pencere) # Label oluşturma
+    etiket2.setPixmap(QtGui.QPixmap("images/python.jpg")) # Resim ekleme
+    etiket2.move(110,50) # Konumlandırma
 
     pencere.show()
     sys.exit(app.exec_())
