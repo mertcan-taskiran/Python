@@ -17,5 +17,10 @@ def index():
 def about():
     return render_template("about.html")
 
+# Dinamik URL
+@app.route("/products/<string:id>")
+def detail(id):
+    return "Product Id: " + id
+
 if __name__ == "__main__":
     app.run(debug=True)
