@@ -5,10 +5,10 @@ from passlib.hash import sha256_crypt
 
 # Kullanıcı Kayıt Formu
 class RegisterForm(Form):
-    name = StringField("Full Name", validators=[validators.Length(min=3, max=30), validators.DataRequired])
-    username = StringField("UserName", validators=[validators.Length(min=3, max=30), validators.DataRequired])
+    name = StringField("Full Name", validators=[validators.Length(min=3, max=30)])
+    username = StringField("UserName", validators=[validators.Length(min=3, max=30)])
     email = StringField("Email", validators=[validators.Email(message="Lütfen geçerli bir email giriniz!")])
-    parola = PasswordField("Password", validators=[
+    password = PasswordField("Password", validators=[
         validators.DataRequired(message="Lütfen bir parola giriniz!"),
         validators.EqualTo(fieldname="confirm", message="Parolanız uyuşmuyor!")
     ])
@@ -39,6 +39,14 @@ def index():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+@app.route("/register", methods=["GET","POST"])
+def register():
+    form = RegisterForm(request.form)
+    if request.method == "POST":
+        return redirect(url_for("index"))
+    else:
+        return render_template("register.html", form=form)
 
 # Dinamik URL
 @app.route("/products/<string:id>")
