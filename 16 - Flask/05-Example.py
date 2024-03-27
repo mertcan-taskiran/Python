@@ -7,7 +7,7 @@ from passlib.hash import sha256_crypt
 class RegisterForm(Form):
     name = StringField("Full Name", validators=[validators.Length(min=3, max=30)])
     username = StringField("UserName", validators=[validators.Length(min=3, max=30)])
-    email = StringField("Email", validators=[validators.Email(message="Lütfen geçerli bir email giriniz!")])
+    email = StringField("Email")
     password = PasswordField("Password", validators=[
         validators.DataRequired(message="Lütfen bir parola giriniz!"),
         validators.EqualTo(fieldname="confirm", message="Parolanız uyuşmuyor!")
@@ -43,7 +43,20 @@ def about():
 @app.route("/register", methods=["GET","POST"])
 def register():
     form = RegisterForm(request.form)
-    if request.method == "POST":
+    if request.method == "POST" and form.validate():
+
+        # Kullanıcıyı veri tabanına kayıt etme
+        name = form.name.data
+        username = form.username.data
+        email = form.email.data
+        password = sha256_crypt.encrypt(form.password.data)
+
+        cursor = mysql.connection.cursor()
+        sorgu = "Insert into users(name,email,username,password) VALUES(%s, %s, %s, %s)"
+        cursor.execute(sorgu, (name,email,username,password))
+        mysql.connection.commit()
+        cursor.close()
+
         return redirect(url_for("index"))
     else:
         return render_template("register.html", form=form)
