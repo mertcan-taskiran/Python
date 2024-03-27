@@ -1,7 +1,19 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
-from passlib.hash import sha256_crypt
+from passlib.hash import sha256_crypt 
+
+# Kullanıcı Kayıt Formu
+class RegisterForm(Form):
+    name = StringField("Full Name", validators=[validators.Length(min=3, max=30), validators.DataRequired])
+    username = StringField("UserName", validators=[validators.Length(min=3, max=30), validators.DataRequired])
+    email = StringField("Email", validators=[validators.Email(message="Lütfen geçerli bir email giriniz!")])
+    parola = PasswordField("Password", validators=[
+        validators.DataRequired(message="Lütfen bir parola giriniz!"),
+        validators.EqualTo(fieldname="confirm", message="Parolanız uyuşmuyor!")
+    ])
+    confirm = PasswordField("Confirm Password")
+
 
 app = Flask(__name__)
 
