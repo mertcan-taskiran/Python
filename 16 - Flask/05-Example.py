@@ -5,8 +5,8 @@ from passlib.hash import sha256_crypt
 
 # Kullanıcı Kayıt Formu
 class RegisterForm(Form):
-    name = StringField("Full Name", validators=[validators.Length(min=3, max=30)])
-    username = StringField("UserName", validators=[validators.Length(min=3, max=30)])
+    name = StringField("Fullname", validators=[validators.Length(min=3, max=30)])
+    username = StringField("Username", validators=[validators.Length(min=3, max=30)])
     email = StringField("Email")
     password = PasswordField("Password", validators=[
         validators.DataRequired(message="Lütfen bir parola giriniz!"),
@@ -14,6 +14,10 @@ class RegisterForm(Form):
     ])
     confirm = PasswordField("Confirm Password")
 
+# Kullanıcı Girişi
+class LoginForm(Form):
+    username = StringField("Username")
+    password = StringField("Parola")
 
 app = Flask(__name__)
 
@@ -42,6 +46,7 @@ def index():
 def about():
     return render_template("about.html")
 
+# Register
 @app.route("/register", methods=["GET","POST"])
 def register():
     form = RegisterForm(request.form)
@@ -61,9 +66,47 @@ def register():
 
         flash("Başarıyla kayıt olundu.", "success") #flash message
 
-        return redirect(url_for("index"))
+        return redirect(url_for("login"))
     else:
         return render_template("register.html", form=form)
+
+# Login
+@app.route("/login",methods =["GET","POST"])
+def login():
+    form = LoginForm(request.form)
+    if request.method == "POST":
+        username = form.username.data
+        password_entered = form.password.data
+
+        cursor = mysql.connection.cursor()
+        sorgu = "Select * From users where username = %s"
+        result = cursor.execute(sorgu, (username,))
+
+        if result > 0:
+            data = cursor.fetchone() # Kullanıcının tüm bilgisini alır.
+            real_password = data["password"]
+            
+            if sha256_crypt.verify(password_entered, real_password):
+                flash("Başarıyla giriş yaptınız.", "success")
+
+                session["logged_in"] = True
+                session["username"] = username
+
+                return redirect(url_for("index"))
+            else:
+                flash("Parola yanlış.", "danger")
+                return redirect(url_for("login"))
+        else:
+            flash("Kullanıcı bulunamadı.", "danger")
+            return redirect(url_for("login"))
+
+    return render_template("login.html", form=form)
+
+# Logout
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
 
 # Dinamik URL
 @app.route("/products/<string:id>")
