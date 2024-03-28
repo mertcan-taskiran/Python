@@ -1,7 +1,19 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators, IntegerField
 from passlib.hash import sha256_crypt 
+from functools import wraps
+
+# Kullanıcı Giriş Decorator
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "logged_in" in session:
+            return f(*args, **kwargs)
+        else:
+            flash("Lütfen giriş yapın.","danger")
+            return redirect(url_for("login"))
+    return decorated_function
 
 # Kullanıcı Kayıt Formu
 class RegisterForm(Form):
@@ -42,9 +54,16 @@ def index():
 
     return render_template("index.html", stok=1, products = products) # Koşul Durumu ve Döngü
 
+# About
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+# Dashboard
+@app.route("/dashboard")
+@login_required # decorator
+def dashboard():
+    return render_template("dashboard.html")
 
 # Register
 @app.route("/register", methods=["GET","POST"])
@@ -108,6 +127,18 @@ def logout():
     session.clear()
     return redirect(url_for("index"))
 
+# Add Product
+@app.route("/addproduct",methods =["GET","POST"])
+def addproduct():
+    form = ProductForm(request.form)
+    return render_template("addproduct.html", form = form)
+
+# Product Form
+class ProductForm(Form):
+    title = StringField("Ürün Adı")
+    price = IntegerField("Ürün Fiyatı")
+    content = TextAreaField("Ürün Özellikleri")
+    
 # Dinamik URL
 @app.route("/products/<string:id>")
 def detail(id):
