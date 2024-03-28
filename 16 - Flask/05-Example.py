@@ -131,6 +131,21 @@ def logout():
 @app.route("/addproduct",methods =["GET","POST"])
 def addproduct():
     form = ProductForm(request.form)
+
+    if request.method == "POST" and form.validate():
+        title = form.title.data
+        price = form.price.data
+        content = form.content.data
+
+        cursor = mysql.connection.cursor()
+        sorgu = "Insert into products(title,author,price,content) VALUES(%s,%s,%s,%s)"
+        cursor.execute(sorgu,(title,session["username"],price,content))
+        mysql.connection.commit()
+        cursor.close()
+
+        flash("Ürün eklendi.", "success")
+        return redirect(url_for("dashboard"))
+
     return render_template("addproduct.html", form = form)
 
 # Product Form
