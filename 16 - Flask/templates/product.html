@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+{% if product %}
+    <h4>{{product.title}}</h4>
+    <hr>
+    Price : {{product.price}}
+    <hr>
+    Author : {{product.author}}
+    <hr>
+    Tarih : {{product.created_date}}
+    <hr>
+    {{product.content|safe}}
+{% else %}
+    <div class = "alert alert-danger">
+        Ürün yok.
+    </div>
+{% endif %}
+
+{% endblock body %}

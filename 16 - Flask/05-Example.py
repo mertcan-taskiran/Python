@@ -167,10 +167,19 @@ class ProductForm(Form):
     price = IntegerField("Ürün Fiyatı")
     content = TextAreaField("Ürün Özellikleri")
     
-# Dinamik URL
-@app.route("/products/<string:id>")
-def detail(id):
-    return "Product Id: " + id
+# Detail 
+@app.route("/product/<string:id>")
+def product(id):
+    cursor = mysql.connection.cursor()
+    sorgu = "Select * From products where id = %s"
+    result = cursor.execute(sorgu, (id,))
+
+    if result > 0:
+        product = cursor.fetchone()
+        return render_template("product.html", product = product)
+    else:
+        return render_template("product.html")
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
