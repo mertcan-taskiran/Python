@@ -1,8 +1,23 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<div class="row">
+    <div class="col-md-6">
+        <h3>Products</h3>
+    </div>
+    <div class="col-md-3">
+        
+    </div>
+    <div class="col-md-3">
+        <form action="/search" method = "post">
+            <div class="input-group">
+                <input type="text" name="keyword" class="form-control rounded" maxlength="64" placeholder="Ara..." aria-label="Search" aria-describedby="search-addon">
+                <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>Ara</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-<h3>Products</h3>
 <hr>
 
 {% if products %}

@@ -161,6 +161,59 @@ def addproduct():
 
     return render_template("addproduct.html", form = form)
 
+# Delete Product
+@app.route("/delete/<string:id>")
+@login_required
+def delete(id):
+    cursor = mysql.connection.cursor()
+    sorgu = "Select * from products where author = %s and id = %s"
+    result = cursor.execute(sorgu,(session["username"],id))
+
+    if result > 0:
+        sorgu2 = "Delete from products where id = %s"
+        cursor.execute(sorgu2,(id,))
+        mysql.connection.commit()
+        return redirect(url_for("dashboard"))
+    else:
+        flash("Ürün veya yetkiniz yok.","danger")
+        return redirect(url_for("index"))
+
+# Update Product
+@app.route("/edit/<string:id>",methods = ["GET","POST"])
+@login_required
+def update(id):
+    # Get Request
+    if request.method == "GET": 
+        cursor = mysql.connection.cursor()
+        sorgu = "Select * from products where id = %s and author = %s"
+        result = cursor.execute(sorgu,(id,session["username"]))
+
+        if result == 0:
+            flash("Ürün veya yetkiniz yok.","danger")
+            return redirect(url_for("index"))
+        else:
+            product = cursor.fetchone()
+            form = ProductForm()
+            form.title.data = product["title"]
+            form.price.data = product["price"]
+            form.content.data = product["content"]
+            return render_template("update.html",form = form)
+
+    # Post Request
+    else: 
+       form = ProductForm(request.form)
+       newTitle = form.title.data
+       newPrice = form.price.data
+       newContent = form.content.data
+
+       sorgu2 = "Update products Set title = %s, price = %s,content = %s where id = %s "
+       cursor = mysql.connection.cursor()
+       cursor.execute(sorgu2,(newTitle,newPrice,newContent,id))
+       mysql.connection.commit()
+
+       flash("Başarıyla Güncellendi","success")
+       return redirect(url_for("dashboard"))
+
 # Product Form
 class ProductForm(Form):
     title = StringField("Ürün Adı")
@@ -179,6 +232,24 @@ def product(id):
         return render_template("product.html", product = product)
     else:
         return render_template("product.html")
+    
+# Search
+@app.route("/search",methods = ["GET","POST"])
+def search():
+    if request.method == "GET":
+        return redirect(url_for("index"))
+    else:
+        keyword = request.form.get("keyword")
+        cursor = mysql.connection.cursor()
+        sorgu = "Select * from products where title like '%" + keyword +"%'"
+        result = cursor.execute(sorgu)
+
+        if result == 0:
+            flash("Ürün bulunamadı.","warning")
+            return redirect(url_for("products"))
+        else:
+            products = cursor.fetchall()
+            return render_template("products.html",products = products)
     
 
 if __name__ == "__main__":
