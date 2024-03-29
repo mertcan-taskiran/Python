@@ -45,14 +45,7 @@ mysql = MySQL(app)
 
 @app.route("/")
 def index():
-    # products = ["Ürün 1", "Ürün 2", "Ürün 3"]
-    products = [
-            {"id":1, "name":"Ürün 1", "price":1000},
-            {"id":2, "name":"Ürün 2", "price":2000},
-            {"id":3, "name":"Ürün 3", "price":3000},
-        ]
-
-    return render_template("index.html", stok=1, products = products) # Koşul Durumu ve Döngü
+    return render_template("index.html")
 
 # About
 @app.route("/about")
@@ -126,6 +119,19 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("index"))
+
+# Products
+@app.route("/products")
+def products():
+    cursor = mysql.connection.cursor()
+    sorgu = "Select * From products"
+    result = cursor.execute(sorgu)
+
+    if result > 0:
+        products = cursor.fetchall()
+        return render_template("products.html", products = products)
+    else:
+        return render_template("products.html")
 
 # Add Product
 @app.route("/addproduct",methods =["GET","POST"])

@@ -5,16 +5,4 @@
     {% include "includes/carousel.html" %}
     <hr>
 
-    {% if stok==1 %}
-        <p>Stokta Var</p>
-    {% else %}
-        <p>Stokta Yok</p>
-    {% endif %}
-
-    <ul>
-        {% for product in products %}
-            <li>Id: {{product.id}} - Name: {{product.name}} - Price: {{product.price}}</li>
-        {% endfor %}
-    </ul>
-
 {% endblock body %}
