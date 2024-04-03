@@ -25,4 +25,5 @@ urlpatterns = [
     path("about/", views.about, name="about"),
     # path("detail/<int:id>", views.detail, name="detail"), # Dinamik URL
     path("products/", include("product.urls")), # products isteği gelirse başka urls çağırır.
+    path("user/", include("user.urls")), # user isteği gelirse başka urls çağırır.
 ]
