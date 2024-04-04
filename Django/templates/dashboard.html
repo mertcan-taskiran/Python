@@ -1,10 +1,50 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<div class="row"> 
+    <div class="col-md-4">
+        <h3>Dashboard</h3>
+    </div>
+    <div class="col-md-4">
+        
+    </div>
+    <div class="col-md-4">
+        <a href="/products/addproduct" class="btn btn-primary">Add Product</a>
+    </div>
+</div>
 
-<h3>Dashboard</h3>
 <hr>
 
-<a href="/products/addproduct" class="btn btn-primary">Add Product</a>
+{% if products %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Seller</th>
+                <th scope="col">Date</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <th scope="row">{{product.id}}</th>
+                    <td><a href="/products/product/{{product.id}}">{{product.title}}</a></td>
+                    <td>{{product.seller.username}}</td>
+                    <td>{{product.created_date}}</td>
+                    <td><a href="/products/update/{{product.id}}" class = "btn btn-warning">Güncelle</a></td>
+                    <td><a href="/products/delete/{{product.id}}" class = "btn btn-danger">Sil</a> </td>            
+                </tr>
+            {% endfor %}
+          
+        </tbody>
+    </table>
+{% else %}
+    <div class = "alert alert-danger mt-3">
+        Ürün yok.
+    </div>
+{% endif %}
 
 {% endblock body %}

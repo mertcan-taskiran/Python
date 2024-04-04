@@ -11,5 +11,6 @@ from product import views
 urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("addproduct/", views.addProduct, name="addproduct"),
+    path("product/<int:id>", views.detail, name="detail"),
 
 ]

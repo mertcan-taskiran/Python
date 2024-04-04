@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .forms import ProductForm
+from .models import Product
 from django.contrib import messages
 # Create your views here.
 
@@ -13,7 +14,14 @@ def about(request):
 #     return HttpResponse("Detail:" + str(id))
 
 def dashboard(request):
-    return render(request, "dashboard.html")
+
+    products = Product.objects.filter(seller = request.user)
+    
+    context = {
+        "products":products
+    }
+
+    return render(request, "dashboard.html", context)
 
 def addProduct(request):
 
@@ -27,3 +35,7 @@ def addProduct(request):
         return redirect("index")
 
     return render(request, "addproduct.html", {"form":form})
+
+def detail(request, id):
+    product = Product.objects.filter(id=id).first()
+    return render(request, "detail.html", {"product": product})
