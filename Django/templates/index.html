@@ -32,4 +32,12 @@
   </button>
 </div>
 
+<p class="mt-3">
+  {% if request.user.is_authenticated %}
+    <span class="text-primary">{{request.user.username}} Hoşgeldiniz!</span>
+  {% else %}
+    Lütfen giriş yapınız!
+  {% endif %}
+</p>
+
 {% endblock body %}
