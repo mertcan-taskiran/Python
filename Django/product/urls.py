@@ -9,6 +9,7 @@ from product import views
 
 # Url adreslerini parçalıyoruz
 urlpatterns = [
-    path("create/", views.index, name="index"),
+    path("dashboard/", views.dashboard, name="dashboard"),
+    path("addproduct/", views.addProduct, name="addproduct"),
 
 ]
