@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login
+from django.contrib import messages
 # Create your views here.
 
 # Register
@@ -16,6 +17,8 @@ def register(request):
 
         newUser.save()
         login(request,newUser)
+        
+        messages.success(request,"Başarıyla kayıt oldunuz.")
 
         return redirect("index")
     
