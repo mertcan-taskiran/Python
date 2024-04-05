@@ -32,7 +32,7 @@ def addProduct(request):
         product.seller = request.user
         product.save()
         messages.success(request,"Ürün başarıyla eklendi.")
-        return redirect("index")
+        return redirect("product:dashboard")
 
     return render(request, "addproduct.html", {"form":form})
 
@@ -50,6 +50,12 @@ def updateProduct(request, id):
         product.seller = request.user
         product.save()
         messages.success(request,"Ürün başarıyla güncellendi.")
-        return redirect("index")
+        return redirect("product:dashboard")
 
     return render(request, "update.html", {"form":form})
+
+def deleteProduct(request, id):
+    product = get_object_or_404(Product, id=id)
+    product.delete()
+    messages.success(request,"Ürün başarıyla silindi.")
+    return redirect("product:dashboard")
