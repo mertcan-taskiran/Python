@@ -31,7 +31,7 @@ def addProduct(request):
         product = form.save(commit=False) # Kaydetme, sadece obje oluştur.
         product.seller = request.user
         product.save()
-        messages.success(request,"Başarıyla ürün eklendi.")
+        messages.success(request,"Ürün başarıyla eklendi.")
         return redirect("index")
 
     return render(request, "addproduct.html", {"form":form})
@@ -40,3 +40,16 @@ def detail(request, id):
     # product = Product.objects.filter(id=id).first()
     product = get_object_or_404(Product, id=id)
     return render(request, "detail.html", {"product": product})
+
+def updateProduct(request, id):
+    product = get_object_or_404(Product, id=id)
+    # instance ile ilk değerler güncellenmemiş haliyle gelir. Daha sonra post yaptığımızda article form tekrar yenilenecek.
+    form = ProductForm(request.POST or None, request.FILES or None, instance=product)
+    if form.is_valid():
+        product = form.save(commit=False)
+        product.seller = request.user
+        product.save()
+        messages.success(request,"Ürün başarıyla güncellendi.")
+        return redirect("index")
+
+    return render(request, "update.html", {"form":form})
