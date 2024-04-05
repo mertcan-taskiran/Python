@@ -21,6 +21,7 @@
             <tr>
                 <th scope="col">id</th>
                 <th scope="col">Title</th>
+                <th scope="col">Price</th>
                 <th scope="col">Seller</th>
                 <th scope="col">Date</th>
                 <th scope="col">Update</th>
@@ -32,6 +33,7 @@
                 <tr>
                     <th scope="row">{{product.id}}</th>
                     <td><a href="/products/product/{{product.id}}">{{product.title}}</a></td>
+                    <td>{{product.price}}</td>
                     <td>{{product.seller.username}}</td>
                     <td>{{product.created_date}}</td>
                     <td><a href="/products/update/{{product.id}}" class = "btn btn-warning">Güncelle</a></td>

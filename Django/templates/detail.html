@@ -5,19 +5,32 @@
 
     <div class="col-lg-8">
 
-        <h3 class="mt-4">{{product.title}}</h3>
+        <h3 class="mt-4">Ürün: {{product.title}}</h3>
+
+        <hr>
+
         <p class="lead">
             Satıcı: {{product.seller.username}}
         </p>
 
         <hr>
 
-        <p>{{product.created_date}}</p>
+        <p>Fiyat: {{product.price}} ₺</p>
+
+        <hr>
+        {% if product.product_image %}
+            <img class="img-fluid rounded" src="{{product.product_image.url}}" alt="">
+        {% else %}
+            <p>Resim yok.</p>
+        {% endif %}
+        <hr>
+
+        <p>Tarih: {{product.created_date}}</p>
     
         <hr>
 
         <p class="lead">
-            {{product.content}}
+            İçerik: {{product.content}}
         </p>       
 
     </div>

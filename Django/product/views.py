@@ -25,7 +25,7 @@ def dashboard(request):
 
 def addProduct(request):
 
-    form = ProductForm(request.POST or None)
+    form = ProductForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
         product = form.save(commit=False) # Kaydetme, sadece obje oluştur.
