@@ -44,4 +44,23 @@
     </div>
 </div>
 
+{% if comments %}
+    {% for comment in comments  %}
+        <hr>
+        <div class="mb-4">
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div>
+                <h5 class="mt-0">{{comment.comment_author}}</h5>
+                {{comment.comment_date}} <br>
+                {{comment.comment_content}}
+            </div>
+        </div>
+    {% endfor %}
+         
+{% else %}
+    <div class ="alert alert-danger">
+        Yorum yok.
+    </div>
+{% endif %}
+
 {% endblock body %}

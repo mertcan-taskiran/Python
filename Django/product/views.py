@@ -1,6 +1,6 @@
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404, reverse
 from .forms import ProductForm
-from .models import Product
+from .models import Product, Comment
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -51,7 +51,8 @@ def addProduct(request):
 def detail(request, id):
     # product = Product.objects.filter(id=id).first()
     product = get_object_or_404(Product, id=id)
-    return render(request, "detail.html", {"product": product})
+    comments = product.comments.all()
+    return render(request, "detail.html", {"product": product, "comments":comments})
 
 @login_required(login_url="user:login")
 def updateProduct(request, id):
@@ -75,4 +76,13 @@ def deleteProduct(request, id):
     return redirect("product:dashboard")
 
 def addComment(request,id):
-    pass
+    product = get_object_or_404(Product, id = id)
+    if request.method == "POST":
+        comment_author = request.POST.get("comment_author")
+        comment_content = request.POST.get("comment_content")
+
+        newComment = Comment(comment_author = comment_author, comment_content = comment_content)
+        newComment.product = product
+        newComment.save()
+    
+    return redirect(reverse("product:detail", kwargs={"id":id}))
