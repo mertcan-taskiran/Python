@@ -2,12 +2,25 @@
 
 {% block body %}
 
-<div class ="row">
-    <div class="col">
+<div class="row">
+    <div class="col-md-6">
         <h3>Products</h3>
-        <hr>
+    </div>
+    <div class="col-md-3">
+        
+    </div>
+    <div class="col-md-3">
+        <form>
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="text" name="keyword" class="form-control rounded" maxlength="32" placeholder="Ara..." aria-label="Search">
+                <button type="submit" class="btn btn-primary">Ara</button>
+            </div>
+        </form>
     </div>
 </div>
+
+<hr>
 
 {% if products %}
 

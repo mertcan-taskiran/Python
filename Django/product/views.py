@@ -6,8 +6,12 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def products(request):
+    keyword = request.GET.get("keyword")
+    if keyword:
+        products = Product.objects.filter(title__contains=keyword)
+        return render(request, "products.html", {"products": products})
+    
     products = Product.objects.all()
-
     return render(request, "products.html", {"products": products})
 
 def index(request):
