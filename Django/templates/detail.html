@@ -1,40 +1,47 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<div class="row">
 
-    <div class="col-lg-8">
-
-        <h3 class="mt-4">Ürün: {{product.title}}</h3>
-
-        <hr>
-
-        <p class="lead">
-            Satıcı: {{product.seller.username}}
-        </p>
-
-        <hr>
-
-        <p>Fiyat: {{product.price}} ₺</p>
-
-        <hr>
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-3">
         {% if product.product_image %}
             <img class="img-fluid rounded" src="{{product.product_image.url}}" alt="">
         {% else %}
             <p>Resim yok.</p>
         {% endif %}
-        <hr>
-
-        <p>Tarih: {{product.created_date}}</p>
-    
-        <hr>
-
-        <p class="lead">
-            İçerik: {{product.content}}
-        </p>       
-
     </div>
-        
+    <div class="col-md-9">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title">Product: <span class="text-danger">{{product.title}}</span></h5>
+                <p class="card-text">Date: <small class="text-body-secondary">{{product.created_date}}</small></p>
+            </div>
+            <h5 class="card-title">Price: <span class="text-danger">{{product.price}} ₺</span></h5>   
+            <p class="card-text">Seller: <span class="text-danger">{{product.seller.username}}</span></p>
+            <hr>
+            <p class="card-text">{{product.content}}</p>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="card my-4">
+    <h5 class="card-header">Add Comment</h5>
+    <div class="card-body">
+        <form method = "post" action = "{% url 'product:comment' product.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="formGroupExampleInput">Name</label>
+                <input name = "comment_author" type="text" class="form-control" id="formGroupExampleInput" placeholder="Name">
+            </div>
+            <div class="form-group mt-3">
+                <label for="formGroupExampleInput">Comment</label>
+                <textarea name = "comment_content" class="form-control" rows="4" placeholder="Comment"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Add</button>
+        </form>
+    </div>
 </div>
 
 {% endblock body %}

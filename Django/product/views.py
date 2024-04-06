@@ -73,3 +73,6 @@ def deleteProduct(request, id):
     product.delete()
     messages.success(request,"Ürün başarıyla silindi.")
     return redirect("product:dashboard")
+
+def addComment(request,id):
+    pass

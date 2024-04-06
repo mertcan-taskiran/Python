@@ -15,4 +15,5 @@ urlpatterns = [
     path("update/<int:id>", views.updateProduct, name="update"),
     path("delete/<int:id>", views.deleteProduct, name="delete"),
     path("", views.products, name="products"),
+    path("comment/<int:id>", views.addComment, name="comment"),
 ]

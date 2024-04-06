@@ -1,10 +1,11 @@
 from django.contrib import admin
 
-from .models import Product # Kayıt işlemi
+from .models import Product, Comment # Kayıt işlemi
 
 # Register your models here.
 
 # admin.site.register(Product) # Kayıt işlemi
+admin.site.register(Comment)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
