@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class ="row">
+    <div class="col">
+        <h3>Products</h3>
+        <hr>
+    </div>
+</div>
+
+{% if products %}
+
+    {% for product in products %}
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-2">
+                    {% if product.product_image %}
+                        <a href="/products/product/{{product.id}}"><img class="img-fluid rounded" src="{{product.product_image.url}}" alt=""></a>
+                    {% else %}
+                        <p>Resim yok.</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-10">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <a href="/products/product/{{product.id}}" class="link-underline link-underline-opacity-0"><h5 class="card-title">Product: <span class="text-danger">{{product.title}}</span></h5></a>                                          
+                            <p class="card-text"><small class="text-body-secondary">{{product.created_date}}</small></p>
+                        </div>   
+                        <h5 class="card-title">Price: <span class="text-danger">{{product.price}} ₺</span></h5> 
+                        <p class="card-title">Seller: <small class="text-danger">{{product.seller.username}}</small></p>  
+                        <hr>              
+                        <p class="card-text">{{product.content}}</p>                                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% comment %} <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <h3 class="mt-4">Ürün: </h3>
+                    <hr>
+                    <p class="lead">
+                        Satıcı: 
+                    </p>
+                    <hr>
+                    <p>Fiyat: {{product.price}} ₺</p>
+                    <hr>
+                    
+                    <hr>
+                    <p>Tarih: </p>         
+                    <hr>
+                    <p class="lead">
+                        İçerik: 
+                    </p>       
+                 </div>
+            </div>
+        </div> {% endcomment %}
+    {% endfor %}
+
+{% else %}
+    <div class ="row">
+        <div class="col">
+            <div class = "alert alert-danger">
+                Ürün yok
+            </div>   
+        </div>
+    </div>
+{% endif %}
+
+{% endblock body %}
